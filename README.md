@@ -1,4 +1,7 @@
-# Estudando funcionalidades do React com um aplicativo de lista de tarefas onde é possível adicionar, remover tarefas.
+# Estudando React 
+
+Aplicativo de lista de tarefas onde é possível adicionar, remover tarefas.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
