@@ -1,17 +1,20 @@
-import React, { useState } from "react";
-import './App.css'
-import AddTask from "./components/AddTask";
-import Tasks from "./components/Tasks";
+import React, { useState, useEffect } from "react";
 import {v4 as uuidv4} from 'uuid'
+import axios from 'axios'
+
+import AddTask from "./components/AddTask";
+import Tasks from "./components/Tasks"; 
+import Header from "./components/Header";
 
 
+import './App.css' 
 
 const App = () => {
   
   const [tasks, setTasks] = useState([
     {
     id:'1',
-    title: 'Acordar 7h',
+    title: 'Acordar',
     completed: true,
     },
     {
@@ -33,7 +36,17 @@ const App = () => {
     } 
 ])
 
-const handleTaskClick = (taskId)=> {
+  useEffect(() => {
+    const fetchTasks = async()=> {
+      const {data} = await axios.get('https://jsonplaceholder.cypress.io/todos?_limit=10'
+      )
+      setTasks(data)
+    }
+     fetchTasks()
+  },[])
+
+
+  const handleTaskClick = (taskId)=> {
   const newTasks = tasks.map(task => {
     if (task.id === taskId) return {...task, completed: !task.completed}
     return task
@@ -59,22 +72,27 @@ const handleTaskAddition = (taskTitle) => {
   } 
 
   return (
-    
-    <div>
-     
+
       <div className="container">
-      <h1 className="titulo">Lista de Tarefas</h1>
-        <AddTask handleTaskAddition={handleTaskAddition}></AddTask>
-        <Tasks 
-              tasks = {tasks}
-              handleTaskClick = {handleTaskClick}
-              handleTaskDeletion = {handleTaskDeletion}      
-        ></Tasks>
-      </div>
+
+        <Header></Header>
+
+            <div>
+
+              <AddTask 
+                handleTaskAddition={handleTaskAddition}>
+              </AddTask>
+
+              <Tasks 
+                tasks = {tasks}
+                handleTaskClick = {handleTaskClick}
+                handleTaskDeletion = {handleTaskDeletion}      
+              >
+              </Tasks>
+
+            </div>
       
-    </div>
-    
-  )
-}
+      </div> 
+  )}
 
 export default App;
